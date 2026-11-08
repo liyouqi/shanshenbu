@@ -1,0 +1,79 @@
+{
+  "match": {
+    "maxHp": 100,
+    "durationSeconds": 60
+  },
+  "arena": {
+    "width": 960,
+    "height": 540,
+    "groundY": 430,
+    "leftBound": 70,
+    "rightBound": 890
+  },
+  "movement": {
+    "walkSpeed": 285,
+    "jumpHeight": 130,
+    "jumpDurationMs": 650,
+    "jumpPassHeight": 78,
+    "collisionHalfWidth": 30
+  },
+  "rules": {
+    "walkThrough": false,
+    "dodgeThrough": true,
+    "jumpOver": true,
+    "airPunch": true,
+    "guardChipRatio": 0.2
+  },
+  "combat": {
+    "hitStunMs": 210
+  },
+  "skills": {
+    "punch": {
+      "damage": 5,
+      "startupMs": 75,
+      "activeMs": 70,
+      "recoveryMs": 135,
+      "cooldownMs": 0,
+      "range": 78,
+      "hits": 1,
+      "knockback": 30
+    },
+    "dodge": {
+      "damage": 0,
+      "startupMs": 40,
+      "activeMs": 160,
+      "recoveryMs": 200,
+      "cooldownMs": 800,
+      "range": 0,
+      "hits": 0,
+      "knockback": 0,
+      "travelDistance": 140,
+      "invulnerableMs": 160
+    },
+    "kick": {
+      "damage": 15,
+      "startupMs": 150,
+      "activeMs": 100,
+      "recoveryMs": 210,
+      "cooldownMs": 650,
+      "range": 128,
+      "hits": 1,
+      "knockback": 65
+    },
+    "nineRings": {
+      "damage": 8,
+      "startupMs": 170,
+      "activeMs": 480,
+      "recoveryMs": 310,
+      "cooldownMs": 5000,
+      "range": 110,
+      "hits": 3,
+      "knockback": 30
+    }
+  },
+  "ai": {
+    "decisionIntervalMs": 250,
+    "reactionDelayMs": 260,
+    "defendChance": 0.25
+  }
+}
