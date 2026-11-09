@@ -1,0 +1,26 @@
+{
+  "version": "approved-art-1.0",
+  "approved_visual_reference": "reference/approved_visual_reference.png",
+  "character_master": {
+    "front": "characters/front_approved_source.png",
+    "side": "characters/side_approved_source.png",
+    "source_type": "approved_concept_crop",
+    "not_layered": true
+  },
+  "stage": "stage/studio_blue_stage_1920x1080.png",
+  "prototypes": {
+    "dodge": {
+      "sheet": "actions/dodge/dodge_spritesheet.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frames": 8
+    },
+    "kick": {
+      "sheet": "actions/kick/kick_spritesheet.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frames": 7
+    }
+  },
+  "scope": "First delivery is art reference + importable prototype assets, not a completed canonical part rig or full animation set."
+}

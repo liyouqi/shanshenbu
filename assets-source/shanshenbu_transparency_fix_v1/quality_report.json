@@ -1,0 +1,82 @@
+{
+  "source": "/mnt/data/shanshenbu_approved_character_v1/actions/kick",
+  "not_a_new_animation": true,
+  "frames": [
+    {
+      "frame": 0,
+      "size": [
+        400,
+        370
+      ],
+      "pixels_alpha_reduced": 2416,
+      "old_visible_pixels": 31884,
+      "new_visible_pixels": 30478
+    },
+    {
+      "frame": 1,
+      "size": [
+        400,
+        370
+      ],
+      "pixels_alpha_reduced": 3649,
+      "old_visible_pixels": 32864,
+      "new_visible_pixels": 30292
+    },
+    {
+      "frame": 2,
+      "size": [
+        400,
+        370
+      ],
+      "pixels_alpha_reduced": 3649,
+      "old_visible_pixels": 32864,
+      "new_visible_pixels": 30292
+    },
+    {
+      "frame": 3,
+      "size": [
+        400,
+        370
+      ],
+      "pixels_alpha_reduced": 4670,
+      "old_visible_pixels": 36692,
+      "new_visible_pixels": 33449
+    },
+    {
+      "frame": 4,
+      "size": [
+        400,
+        370
+      ],
+      "pixels_alpha_reduced": 4670,
+      "old_visible_pixels": 36692,
+      "new_visible_pixels": 33449
+    },
+    {
+      "frame": 5,
+      "size": [
+        400,
+        370
+      ],
+      "pixels_alpha_reduced": 5769,
+      "old_visible_pixels": 38225,
+      "new_visible_pixels": 33312
+    },
+    {
+      "frame": 6,
+      "size": [
+        400,
+        370
+      ],
+      "pixels_alpha_reduced": 5769,
+      "old_visible_pixels": 38225,
+      "new_visible_pixels": 33312
+    }
+  ],
+  "sprite_sheet": {
+    "frameWidth": 400,
+    "frameHeight": 370,
+    "frameCount": 7,
+    "layout": "single row"
+  }
+}

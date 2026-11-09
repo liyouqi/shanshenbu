@@ -15,7 +15,11 @@ try {
   const desktop = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   const page = await desktop.newPage(); watch(page); await load(page);
   assert.equal((await snapshot(page)).phase, 'ready');
+  const initialVisual = await page.evaluate(() => window.__shanshenbu.visuals());
   await page.waitForTimeout(500); assert.equal((await snapshot(page)).elapsed, 0);
+  const idleVisual = await page.evaluate(() => window.__shanshenbu.visuals());
+  assert.equal(idleVisual.player.animation, 'idle');
+  assert.notEqual(idleVisual.player.frame, initialVisual.player.frame);
   await page.screenshot({ path: '.test-artifacts/desktop-ready.png', fullPage: true });
   await page.keyboard.down('d'); await page.waitForTimeout(300); await page.keyboard.up('d');
   let s = await snapshot(page); assert.equal(s.phase, 'playing'); assert.ok(s.fighters.player.x > 316);
@@ -23,7 +27,9 @@ try {
   // Acceptance persists after the short animation, even if browser automation is delayed.
   assert.ok((await snapshot(page)).fighters.player.cooldown.dodge > 0);
   await page.keyboard.press('Escape'); s = await snapshot(page); assert.equal(s.phase, 'paused');
+  const pausedVisual = await page.evaluate(() => window.__shanshenbu.visuals());
   await page.waitForTimeout(350); assert.equal((await snapshot(page)).elapsed, s.elapsed);
+  assert.deepEqual(await page.evaluate(() => window.__shanshenbu.visuals()), pausedVisual);
   await page.click('#resume'); await page.waitForTimeout(100); assert.equal((await snapshot(page)).phase, 'playing');
   await page.evaluate(() => window.dispatchEvent(new Event('blur')));
   s = await snapshot(page); assert.equal(s.phase, 'paused');
@@ -42,10 +48,18 @@ try {
     await page.keyboard.press('u'); await page.waitForTimeout(250);
   }
   s = await snapshot(page); assert.equal(s.phase, 'result');
+  await page.locator('#result').waitFor({ state: 'visible', timeout: 2000 });
+  const resultVisual = await page.evaluate(() => window.__shanshenbu.visuals());
+  for (const id of ['player', 'cpu']) if (s.fighters[id].hp === 0) {
+    assert.equal(resultVisual[id].animation, 'ko');
+    assert.equal(resultVisual[id].frame, 5);
+  }
+  await page.waitForTimeout(150); assert.equal((await snapshot(page)).elapsed, s.elapsed);
   assert.ok(await page.locator('#result').isVisible());
   await page.screenshot({ path: '.test-artifacts/desktop-result.png', fullPage: true });
   await page.click('#restart'); s = await snapshot(page);
   assert.equal(s.phase, 'ready'); assert.equal(s.elapsed, 0); assert.equal(s.fighters.player.hp, 100); assert.equal(s.fighters.cpu.hp, 100);
+  assert.equal((await page.evaluate(() => window.__shanshenbu.visuals())).player.animation, 'idle');
   await page.keyboard.press('j'); await page.waitForTimeout(35); assert.equal((await snapshot(page)).phase, 'playing');
   console.log('PASS full round and replay through actual UI');
   await desktop.close();

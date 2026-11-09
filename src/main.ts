@@ -4,21 +4,22 @@ import { balance, skillNames } from './core/config';
 import { Controls } from './input/controls';
 import { AIController } from './ai/controller';
 import { ArenaView } from './view/arena';
+import { animations, animationNames } from './view/action-frames';
 import { AudioFeedback } from './audio/feedback';
 import './style.css';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 app.innerHTML = `
-  <header class="masthead"><a class="brand" href="./" aria-label="闪身步首页"><span class="brand-mark">闪</span><span>闪身步<small>来过两招</small></span></a><span class="edition">街头切磋 · 单人练练</span><div class="sound-tools"><label title="音量"><span>音量</span><input id="volume" aria-label="音量" type="range" min="0" max="1" step="0.05" value="0.55" /></label><button id="mute" class="tool" aria-label="静音" aria-pressed="false">声音 开</button></div></header>
+  <header class="masthead"><a class="brand" href="./" aria-label="闪身步首页"><span class="brand-mark">闪</span><span>闪身步<small>来过两招</small></span></a><span class="edition">教学舞台 · 单人练练</span><div class="sound-tools"><label title="音量"><span>音量</span><input id="volume" aria-label="音量" type="range" min="0" max="1" step="0.05" value="0.55" /></label><button id="mute" class="tool" aria-label="静音" aria-pressed="false">声音 开</button></div></header>
   <main class="game-shell" aria-label="闪身步格斗游戏">
     <div class="hud">
-      <div class="fighter-hud player"><div class="fighter-name"><span><i></i>你 · 放马过来</span><span id="player-hp">100 / 100</span></div><div class="health-track"><div id="player-health" class="health-fill"></div></div></div>
+      <div class="fighter-hud player"><span class="portrait" aria-hidden="true"></span><div class="fighter-name"><span><i></i>1P · 你</span><span id="player-hp">100 / 100</span></div><div class="health-track"><div id="player-health" class="health-fill"></div></div></div>
       <div class="clock"><span id="timer">60</span><small>一局定胜负</small></div>
-      <div class="fighter-hud cpu"><div class="fighter-name"><span id="cpu-hp">100 / 100</span><span>陪练阿步<i></i></span></div><div class="health-track"><div id="cpu-health" class="health-fill"></div></div></div>
+      <div class="fighter-hud cpu"><span class="portrait" aria-hidden="true"></span><div class="fighter-name"><span id="cpu-hp">100 / 100</span><span>CPU · 阿步<i></i></span></div><div class="health-track"><div id="cpu-health" class="health-fill"></div></div></div>
     </div>
     <div class="playfield">
       <div id="arena" aria-label="对战擂台"></div>
-      <div id="ready" class="ready"><span class="eyebrow">擂台已就位</span><strong>来，过两招。</strong><span>移动或出招，即刻开打</span></div>
+      <div id="ready" class="ready"><span class="eyebrow">教学舞台已就位</span><strong>来，过两招。</strong><span>移动或出招，即刻开打</span></div>
       <div id="status" class="status" role="status" aria-live="polite">正在准备擂台…</div>
       <button id="mobile-mute" class="mobile-sound tool" aria-label="静音">声音 开</button>
       <button id="pause" class="pause tool" aria-label="暂停游戏">Ⅱ</button>
@@ -73,9 +74,10 @@ function syncPause() {
 function restart() {
   if (!sceneReady || core.phase !== 'result') return;
   core.reset(); ai.reset(); controls.clear(); audio.reset(); view.clear(); accumulator = 0;
-  manualPause = false; lastPhase = ''; syncPause(); renderHUD();
+  manualPause = false; lastPhase = ''; syncPause(); view.render(); renderHUD();
 }
 function renderHUD() {
+  hud.result.hidden = core.phase !== 'result' || !view?.resultReady;
   for (const id of ['player', 'cpu'] as const) {
     const hp = core.fighters[id].hp;
     const cacheKey = id === 'player' ? 'playerHp' : 'cpuHp';
@@ -103,7 +105,6 @@ function renderHUD() {
   if (lastPhase !== core.phase) {
     lastPhase = core.phase;
     hud.ready.hidden = core.phase !== 'ready';
-    hud.result.hidden = core.phase !== 'result';
     if (core.phase === 'result') {
       controls.clear();
       const win = core.winner;
@@ -117,7 +118,21 @@ function renderHUD() {
 
 class FightScene extends Phaser.Scene {
   constructor() { super('fight'); }
-  preload() { for (const key of ['swing', 'swoosh', 'hit', 'block', 'bell', 'land']) this.load.audio(key, `assets/${key}.wav`); }
+  preload() {
+    const art = 'assets/visual/teacher-v1';
+    this.load.image('studio-blue', `${art}/stage/studio_blue_stage_1920x1080.png`);
+    for (const action of animationNames) {
+      const spec = animations[action];
+      if (action === 'nineRings') {
+        // Avoid a 4400px texture on phones with a 4096px texture limit.
+        for (let frame = 0; frame < spec.frameCount; frame++) this.load.image(`teacher-nineRings-${frame}`, `assets/visual/coverage-v0.3/nineRings/${String(frame).padStart(2, '0')}.png`);
+      } else {
+        const path = action === 'dodge' ? `${art}/actions/dodge/dodge_spritesheet.png` : `assets/visual/coverage-v0.3/${action}.png`;
+        this.load.spritesheet(`teacher-${action}`, path, { frameWidth: spec.frameWidth, frameHeight: spec.frameHeight });
+      }
+    }
+    for (const key of ['swing', 'swoosh', 'hit', 'block', 'bell', 'land']) this.load.audio(key, `assets/${key}.wav`);
+  }
   create() {
     view = new ArenaView(this, core); audio = new AudioFeedback(this);
     controls = new Controls(app, () => audio.unlock(), restart, () => { manualPause = !manualPause; syncPause(); });
@@ -131,13 +146,14 @@ class FightScene extends Phaser.Scene {
     el('restart').onclick = restart;
     el('pause').onclick = () => { if (core.phase === 'result') return; manualPause = !manualPause; syncPause(); };
     el('resume').onclick = () => { manualPause = false; blurred = false; syncPause(); };
-    sceneReady = true; syncAudio(); syncPause(); renderHUD(); view.render();
+    sceneReady = true; syncAudio(); syncPause(); view.render(); renderHUD();
     // Read-only diagnostic snapshots for local browser checks; omitted from production.
-    if (import.meta.env.DEV) (window as unknown as { __shanshenbu: unknown }).__shanshenbu = { snapshot: () => core.snapshot() };
+    if (import.meta.env.DEV) (window as unknown as { __shanshenbu: unknown }).__shanshenbu = { snapshot: () => core.snapshot(), visuals: () => view.snapshot() };
   }
   update(_time: number, delta: number) {
     if (!sceneReady || failure) return;
-    if (core.phase === 'paused' || core.phase === 'result') { accumulator = 0; renderHUD(); view.render(); return; }
+    const visualDelta = blurred || document.hidden || portrait.matches ? 0 : delta;
+    if (core.phase === 'paused' || core.phase === 'result') { accumulator = 0; view.render(1, visualDelta); renderHUD(); return; }
     accumulator += Math.min(delta, STEP * 5);
     let steps = 0;
     while (accumulator >= STEP && steps < 5) {
@@ -148,7 +164,7 @@ class FightScene extends Phaser.Scene {
       accumulator -= STEP; steps++;
       if (events.some(e => e.type === 'round-end')) { accumulator = 0; break; }
     }
-    renderHUD(); view.render(core.phase === 'playing' ? accumulator / STEP : 1);
+    view.render(core.phase === 'playing' ? accumulator / STEP : 1, visualDelta); renderHUD();
   }
 }
 window.addEventListener('blur', () => { blurred = true; syncPause(); });
@@ -161,7 +177,7 @@ syncPause();
 try {
   new Phaser.Game({
     type: Phaser.AUTO, parent: 'arena', width: balance.arena.width, height: balance.arena.height,
-    backgroundColor: '#f1eddf', scene: FightScene, banner: false,
+    backgroundColor: '#5289b4', scene: FightScene, banner: false,
     scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
     render: { antialias: true, roundPixels: false },
     audio: { disableWebAudio: false },

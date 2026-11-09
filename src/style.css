@@ -5,3 +5,45 @@
 .mobile-sound{display:none;position:absolute;top:8px;right:48px;padding:5px 8px;font-size:10px;background:#f1eddfaa}.pause-volume{font-size:12px;display:flex;align-items:center;justify-content:center;gap:12px}.pause-volume input{width:100px;accent-color:var(--ink)}
 @media(orientation:landscape) and (max-height:600px){.mobile-sound{display:block}}
 @media(orientation:landscape) and (max-height:600px){#arena{width:calc(100% - 232px);margin-inline:116px}.skills{display:grid;grid-template-columns:repeat(2,49px);gap:5px 7px}.skill{height:65px}.special,.dodge{margin-bottom:0}.controls{align-items:flex-end}.ready{top:5%}}
+
+/* Approved teaching-studio palette; input dimensions and responsive layout stay above. */
+:root{color:#193654;background:#e7eff9;--orange:#d45443;--teal:#2864be;--ink:#193654}
+.brand-mark{background:#2864be;color:#fff;border-color:#fff;box-shadow:3px 3px 0 #aac2de}
+.edition,.control-help,footer{color:#637b98}
+.game-shell{border-color:#37679f;background:#eef5ff;box-shadow:5px 6px 0 #c1d4ec}
+.hud{background:linear-gradient(#f7fbff,#dbeaff);border-color:#9dbbdf}
+.fighter-hud{position:relative;padding-left:52px;--identity:#d45443}
+.fighter-hud.cpu{padding-left:0;padding-right:52px;--identity:#2864be}
+.portrait{position:absolute;left:0;top:50%;transform:translateY(-50%);width:44px;height:44px;border:2px solid var(--identity);border-radius:50%;background:#fff4df url('/assets/visual/teacher-v1/characters/front_approved_source.png') center 0 / 40px auto no-repeat;box-shadow:0 0 0 2px #fff}
+.cpu .portrait{left:auto;right:0}
+.fighter-name{color:var(--identity);font-weight:700}
+#player-hp,#cpu-hp{color:#557394}
+.health-track{background:#b8c9df;border-color:#234d7d}
+.health-fill,.cpu .health-fill{background:linear-gradient(#ffe97d,#ffd34d)}
+.clock{color:#fff;background:#234d7d;border:2px solid #fff;border-radius:12px;padding:5px 0;box-shadow:0 1px 3px #234d7d33}
+.clock small{color:#cbdffa}
+.playfield{background:#5289b4}
+.ready{color:#fff;text-shadow:0 2px 4px #234d7d}
+.ready strong{font-family:inherit}
+.ready .eyebrow,.ready>span:last-child{color:#edf6ff}
+.controls{background:#eef5ff;border-color:#a6c1e2}
+.control-help strong{color:#2a4e76}
+.control-caption,.joystick>span{color:#557394}
+.joystick{background:#dbe8f9;border-color:#7b9fca;box-shadow:inset 0 2px 6px #234d7d22}
+#thumb{background:#f6faff;border-color:#37679f;box-shadow:0 3px 0 #95b2d7}
+.joystick.pressed #thumb{background:#bed7f7}
+.skill-face{background:#f5f1e6;border-color:#234d7d;color:#234d7d;box-shadow:0 4px 0 #234d7d}
+.dodge .skill-face{background:#aed8ff}.kick .skill-face{background:#ffd34d}.special .skill-face{background:#326fc1;color:#fff}
+.skill.cooling .skill-face{background:#bacce1;color:#607898}.cooldown{color:#234d7d}
+.tool{background:#edf5ffdf;border-color:#91aed0;color:#234d7d}.tool:hover{background:#d6e7fd}
+.overlay{background:#dcecffdc}.result-card{color:#193654}.result-card .eyebrow,.result-card p,.result-card small{color:#557394}
+.primary{background:#2864be;border-color:#234d7d;color:#fff}.primary:hover{background:#3678d8}
+.rotate{background:#e7eff9}.rotate p{color:#557394}
+kbd{border-color:#adc3de}
+@media(orientation:landscape) and (max-height:600px){
+  .controls{background:none;border:0}
+  .joystick{background:#dbe8f9e6}
+  .fighter-hud{padding-left:36px}.fighter-hud.cpu{padding-right:36px}
+  .portrait{width:30px;height:30px;background-size:27px auto}
+  .clock{width:52px;padding:2px 0;border-radius:9px}
+}

@@ -1,0 +1,130 @@
+{
+  "project": "闪身步",
+  "version": "0.3-action-coverage",
+  "purpose": "先补齐完整对局视觉状态，再统一修透明/精修动画",
+  "frameWidth": 400,
+  "frameHeight": 370,
+  "animations": {
+    "dodge": {
+      "action": "dodge",
+      "sheet": "spritesheets/dodge.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 8,
+      "frameDurationMs": 95,
+      "loop": false,
+      "quality": "existing-prototype",
+      "notes": "已有闪身试制，保留原始动作和透明残留，后续精修"
+    },
+    "kick": {
+      "action": "kick",
+      "sheet": "spritesheets/kick.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 7,
+      "frameDurationMs": 95,
+      "loop": false,
+      "quality": "existing-prototype",
+      "notes": "踢击透明修复试制，仍有少量白边/裤脚误抠，不作为干净样板"
+    },
+    "idle": {
+      "action": "idle",
+      "sheet": "spritesheets/idle.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 6,
+      "frameDurationMs": 140,
+      "loop": true,
+      "quality": "placeholder",
+      "notes": "轻微呼吸节奏，非正式逐帧待机"
+    },
+    "walk": {
+      "action": "walk",
+      "sheet": "spritesheets/walk.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 6,
+      "frameDurationMs": 100,
+      "loop": true,
+      "quality": "placeholder",
+      "notes": "轻量前后重心交替占位，人物真实走步待替换"
+    },
+    "jump": {
+      "action": "jump",
+      "sheet": "spritesheets/jump.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 3,
+      "frameDurationMs": 120,
+      "loop": false,
+      "quality": "placeholder",
+      "notes": "只表示空中收腿姿势；Y轴高度由Combat Core控制，不在动作图中烘焙"
+    },
+    "crouch": {
+      "action": "crouch",
+      "sheet": "spritesheets/crouch.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 3,
+      "frameDurationMs": 105,
+      "loop": false,
+      "quality": "placeholder",
+      "notes": "压低身体占位，下蹲受击高度仍以战斗逻辑为准"
+    },
+    "guard": {
+      "action": "guard",
+      "sheet": "spritesheets/guard.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 3,
+      "frameDurationMs": 140,
+      "loop": true,
+      "quality": "placeholder",
+      "notes": "防御姿态占位，无独立格挡美术"
+    },
+    "punch": {
+      "action": "punch",
+      "sheet": "spritesheets/punch.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 4,
+      "frameDurationMs": 85,
+      "loop": false,
+      "quality": "placeholder",
+      "notes": "先用身体前倾代替手部伸拳；需要后续绘制真正的出拳姿势"
+    },
+    "hit": {
+      "action": "hit",
+      "sheet": "spritesheets/hit.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 5,
+      "frameDurationMs": 72,
+      "loop": false,
+      "quality": "placeholder",
+      "notes": "受击后仰+位置反馈；击退仍由Combat Core控制"
+    },
+    "ko": {
+      "action": "ko",
+      "sheet": "spritesheets/ko.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 6,
+      "frameDurationMs": 125,
+      "loop": false,
+      "quality": "placeholder",
+      "notes": "倒地占位版：通过整体旋转实现，非独立绘制的倒地动画"
+    },
+    "nineRings": {
+      "action": "nineRings",
+      "sheet": "spritesheets/nineRings.png",
+      "frameWidth": 400,
+      "frameHeight": 370,
+      "frameCount": 11,
+      "frameDurationMs": 78,
+      "loop": false,
+      "quality": "placeholder",
+      "notes": "重用踢击帧形成三次快速出招占位，非正式九连环动作"
+    }
+  }
+}
